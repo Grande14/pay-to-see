@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-import CheckoutForm from "./CheckoutForm";
 import "./App.css";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
@@ -11,49 +10,28 @@ import "./App.css";
 const stripePromise = loadStripe("pk_test_51JyvgOANb0LBpbzQdwhtXiFJy3W2y2ZWlwqpAZ5pxfumCaRxAe8pRxo9ntXisr8k9wJrbG1lSujUWEBhEvvPAavR00JWwmVqv5");
 
 export default function App() {
-  const [clientSecret, setClientSecret] = useState("");
+  // const [clientSecret, setClientSecret] = useState("");
   const [errorPage, setErrorPage] = useState(false);
-
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
-    })
-      .then((res) => {
-        console.log("got response")
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error('Error requesting creating payment intent')
-        }
-      })
-      .then((data) => {
-        console.log("setting client secret")
-        setClientSecret(data.clientSecret)
-      })
-      .catch((error) => {
-        console.log("Client error: " + error);
-        setErrorPage(true);
-      });
-  }, []);
-
-  const appearance = {
-    theme: 'stripe',
-  };
-  const options = {
-    clientSecret,
-    appearance,
-  };
-
+  const [amount, setAmount] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  
   return (
     <div className="App">
-      {clientSecret && (
+      {/* <form id="payment-form" onSubmit={handleSubmit}> */}
+      <form id="payment-form" action="/create-checkout-session" method="POST">
+        <label for="amount">Enter amount here: $</label>
+        <input name="amount" type="number" onInput={e => { setAmount(e.target.value)}} value={amount}></input>
+        <button id="submit" disabled={amount < 0.5 || isLoading}>
+          <span id="button-text">
+            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay $" + amount + " now"}
+          </span>
+        </button>
+      </form>
+      {/* {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
         </Elements>
-      )}
+      )} */}
       {errorPage && (
         "Something went wrong"
       )}
