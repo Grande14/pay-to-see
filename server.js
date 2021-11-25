@@ -26,7 +26,7 @@ app.post('/create-checkout-session', async (req, res, next) => {
       },
     ],
     mode: 'payment',
-    success_url: 'http://localhost:3000',
+    success_url: 'http://localhost:3000?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: 'http://localhost:3000',
   }).catch((err) => {
     console.log("caught error in create checkout session: " + err);
@@ -37,6 +37,19 @@ app.post('/create-checkout-session', async (req, res, next) => {
   }
 
   res.redirect(303, session.url);
+});
+
+app.get('/success', async (req, res, next) => {
+  const session = await stripe.checkout.sessions.retrieve(req.query.session_id)
+  .catch((err) => {
+    console.log("Caught error");
+  })
+  if (!session) {
+    console.log("Session is undefined");
+    return next();
+  }
+  // TODO: get data from db here
+  res.json({ data: 10005 });
 });
 
 app.listen(4242, () => console.log("Node server listening on port 4242!"));
