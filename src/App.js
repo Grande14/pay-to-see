@@ -59,11 +59,6 @@ export default function App() {
           </span>
         </button>
       </form>
-      {/* {clientSecret && (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      )} */}
       {errorPage && (
         "Something went wrong"
       )}
