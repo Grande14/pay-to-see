@@ -48,6 +48,10 @@ app.get('/success', async (req, res, next) => {
     console.log("Session is undefined");
     return next();
   }
+  if (session.payment_status != 'paid') {
+    console.log("Unpaid session!");
+    return next();
+  }
   // TODO: get data from db here
   res.json({ data: 10005 });
 });
