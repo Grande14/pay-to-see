@@ -1,0 +1,10 @@
+{
+  "storage": {
+    "paytoseedb": {
+      "service": "DynamoDB",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
+  }
+}
