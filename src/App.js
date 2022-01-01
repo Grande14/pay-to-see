@@ -50,7 +50,7 @@ export default function App() {
   return (
     <div className="App">
       {/* <form id="payment-form" onSubmit={handleSubmit}> */}
-      {statData.data == '' ? "Pay to see here!" : 
+      {statData.data == '' ? <div>{"Pay to see here!"}</div> : 
       <div>
         <div> {"On average, people paid: $" + Math.floor(statData.data.average * 100) / 100.}
         </div>
@@ -60,6 +60,7 @@ export default function App() {
         </div>
       </div>
       }
+      <br></br>
       <form id="payment-form" action="/create-checkout-session" method="POST">
         <label for="amount">Enter amount here: $</label>
         <input name="amount" type="number" onInput={e => { setAmount(e.target.value)}} value={amount}></input>
@@ -70,6 +71,7 @@ export default function App() {
           </span>
         </button>
       </form>
+      <br></br>
       {errorPage.length != 0 ? (
         errorPage
       ) : ""}
