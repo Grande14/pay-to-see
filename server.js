@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require('path')
 const expirationSeconds = 3600;
 
 var AWS = require("aws-sdk");
@@ -9,57 +10,19 @@ AWS.config.update({
 var tableName = "pay-to-see-db";
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-// function something() {
-//   var params = {
-//       TableName:tableName,
-//       Item:{
-//           "partitionkey": "some_id_lol",
-//           "ttl": Math.floor(Date.now() / 1000) + TTL_seconds,
-//           "sample": "hello"
-//       }
-//   };
-
-//   console.log("Adding a new item...");
-//   docClient.put(params, function(err, data) {
-//       if (err) {
-//           console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-//       } else {
-//           console.log("Added item:", JSON.stringify(data, null, 2));
-//       }
-//   });
-// }
-// something();
-
-// function readTable() {
-//   var params = {
-//       TableName: tableName,
-//       Key:{
-//           "partitionkey": "some_id_lol",
-//       }
-//   };
-  
-//   docClient.get(params, function(err, data) {
-//       if (err) {
-//           console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-//       } else {
-//           if (data.Item && data.Item.ttl >=  Math.floor(Date.now() / 1000)) {
-//             console.log("Got not expired data: " + JSON.stringify(data.Item, null, 2))
-//           } else {
-//             console.log("Got EXPIRED: " + JSON.stringify(data.Item, null, 2));
-//           }
-//       }
-//   });
-// }
-// readTable();
-
 require('dotenv').config({ path: './.env' });
 
 // This is a sample test API key.
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const HOST = "dev.d1usahgfi0u6b5.amplifyapp.com"
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'build')))
 app.use(express.json());
 app.use(express.urlencoded()); // to support URL-encoded bodies
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 app.post('/create-checkout-session', async (req, res, next) => {
   console.log(req.body);
@@ -77,8 +40,8 @@ app.post('/create-checkout-session', async (req, res, next) => {
       },
     ],
     mode: 'payment',
-    success_url: 'http://localhost:3000?session_id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'http://localhost:3000',
+    success_url: `http://${HOST}?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `http://${HOST}`,
     // expires_at: Math.floor(Date.now() / 1000) + expirationSeconds,
   }).catch((err) => {
     console.log("caught error in create checkout session: " + err);
