@@ -1,0 +1,13 @@
+{
+  "lambdaLayers": [],
+  "permissions": {
+    "storage": {
+      "paytoseedb": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
+}

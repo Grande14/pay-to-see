@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import Amplify, { API } from 'aws-amplify';
+import awsconfig from './aws-exports';
 
 import "./App.css";
+
+Amplify.configure(awsconfig);
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -25,27 +29,32 @@ export default function App() {
     }
     console.log("Got session id: " + session_id);
     // Fetch data from server
-    fetch("/success?session_id=" + session_id, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
-    .then(async (res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        const errorText = await res.text();
-        throw new Error(errorText);
+    return API.get('nodeapi', '/success', {
+      queryStringParameters: {
+        'session_id': session_id
       }
     })
-    .then((data) => {
-      console.log(data);
-      setStatData(data);
+    .then(response => {
+      // Add your code here
+      console.log("got data")
+      console.log(response);
+      setStatData(response);
     })
-    .catch((err) => {
-      console.log(err.message)
-      setErrorPage(err.message);
-    })
+    .catch(error => {
+      console.log(error.response);
+      setErrorPage(error.response.data);
+   });
   }, []);
+
+  // TODO: use cors redirect if want to call here
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+    return await API.post('nodeapi', '/create-checkout-session', {
+      body: {
+        amount: amount
+      }
+    });
+  }
 
   return (
     <div className="App">
@@ -61,7 +70,8 @@ export default function App() {
       </div>
       }
       <br></br>
-      <form id="payment-form" action="/create-checkout-session" method="POST">
+      {/* <form id="payment-form" onSubmit={handleFormSubmit}> */}
+      <form id="payment-form" action="https://tuui63hhf5.execute-api.us-west-1.amazonaws.com/dev/create-checkout-session" method="POST">
         <label for="amount">Enter amount here: $</label>
         <input name="amount" type="number" onInput={e => { setAmount(e.target.value)}} value={amount}></input>
         <button id="submit" disabled={amount < 0.5}>

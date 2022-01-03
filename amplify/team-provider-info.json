@@ -18,7 +18,24 @@
           "region": "us-west-1",
           "arn": "arn:aws:dynamodb:us-west-1:278406422833:table/pay-to-see-db",
           "partitionKeyName": "partitionkey",
-          "partitionKeyType": "S"
+          "partitionKeyType": "S",
+          "streamArn": "arn:aws:dynamodb:us-west-1:278406422833:table/pay-to-see-db/stream/2022-01-03T09:43:57.343"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1usahgfi0u6b5",
+          "type": "manual"
+        }
+      },
+      "function": {
+        "success": {
+          "deploymentBucketName": "amplify-paytosee-dev-30533-deployment",
+          "s3Key": "amplify-builds/success-4f626472786a334b4b32-build.zip"
+        },
+        "createcheckoutsession": {
+          "deploymentBucketName": "amplify-paytosee-dev-30533-deployment",
+          "s3Key": "amplify-builds/createcheckoutsession-34746d6b5a4a78565154-build.zip"
         }
       }
     }

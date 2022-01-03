@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/create-checkout-session": {
+      "name": "/create-checkout-session",
+      "lambdaFunction": "createcheckoutsession",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/success": {
+      "name": "/success",
+      "lambdaFunction": "success",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
