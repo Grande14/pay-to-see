@@ -16,7 +16,7 @@ var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware'
 require('dotenv').config({ path: './.env' });
 // This is a sample test API key.
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const HOST = "pay-to-see.com"
+const HOST = "www.pay-to-see.com"
 
 // declare a new express app
 var app = express()
