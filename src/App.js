@@ -57,9 +57,16 @@ export default function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+      <div className="title">
+        <b>Pay to See</b>
+      </div>
       {/* <form id="payment-form" onSubmit={handleSubmit}> */}
-      {statData.data == '' ? <div>{"Pay to see here!"}</div> : 
+      {statData.data == '' ?
+        <div style={{paddingLeft: '20%', paddingRight: '20%'}}>
+          <b>{"Pay to see how much others across the world have paid to see how much others have paid to see... you get the idea."}</b>
+        </div>
+      : 
       <div>
         <div> {"On average, people paid: $" + Math.floor(statData.data.average * 100) / 100.}
         </div>
@@ -74,7 +81,7 @@ export default function App() {
       <form id="payment-form" action="https://tuui63hhf5.execute-api.us-west-1.amazonaws.com/dev/create-checkout-session" method="POST">
         <label for="amount">Enter amount here: $</label>
         <input name="amount" type="number" onInput={e => { setAmount(e.target.value)}} value={amount}></input>
-        <button id="submit" disabled={amount < 0.5}>
+        <button style ={{marginTop: 20}} id="submit" disabled={amount < 0.5}>
           <span id="button-text">
             {/* {isLoading ? <div className="spinner" id="spinner"></div> : "Pay $" + amount + " now"} */}
             {"Pay $" + amount + " now"}
