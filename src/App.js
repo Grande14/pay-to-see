@@ -20,6 +20,7 @@ export default function App() {
   const [statData, setStatData] = useState({data: ''});
   
   useEffect(() => {
+    document.title = "Pay to See";
     const session_id = new URLSearchParams(window.location.search).get(
       "session_id"
     );
