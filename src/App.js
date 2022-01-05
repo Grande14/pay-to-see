@@ -11,7 +11,7 @@ Amplify.configure(awsconfig);
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // loadStripe is initialized with a fake API key.
-const stripePromise = loadStripe("pk_test_51JyvgOANb0LBpbzQdwhtXiFJy3W2y2ZWlwqpAZ5pxfumCaRxAe8pRxo9ntXisr8k9wJrbG1lSujUWEBhEvvPAavR00JWwmVqv5");
+const stripePromise = loadStripe("pk_live_51JyvgOANb0LBpbzQ1n2Suh7fnNCJsXjCrP76pv5alkhhwyFba81XDcy6xu3ylrY1jGRhMauq2kFgvTTQjOadgMDd00LySKFhpV");
 
 export default function App() {
   // const [clientSecret, setClientSecret] = useState("");
