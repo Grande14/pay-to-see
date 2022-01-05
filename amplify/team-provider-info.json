@@ -31,11 +31,11 @@
       "function": {
         "success": {
           "deploymentBucketName": "amplify-paytosee-dev-30533-deployment",
-          "s3Key": "amplify-builds/success-4f626472786a334b4b32-build.zip"
+          "s3Key": "amplify-builds/success-6a6256626f4634415361-build.zip"
         },
         "createcheckoutsession": {
           "deploymentBucketName": "amplify-paytosee-dev-30533-deployment",
-          "s3Key": "amplify-builds/createcheckoutsession-455a44306f794e567334-build.zip"
+          "s3Key": "amplify-builds/createcheckoutsession-5248485265617671697a-build.zip"
         }
       }
     }
