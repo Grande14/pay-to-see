@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import Amplify, { API } from 'aws-amplify';
@@ -19,6 +19,7 @@ export default function App() {
   const [amount, setAmount] = useState(1);
   const [statData, setStatData] = useState({data: ''});
   
+  const amountInput = useRef(null);
   useEffect(() => {
     document.title = "Pay to See";
     const session_id = new URLSearchParams(window.location.search).get(
@@ -81,8 +82,8 @@ export default function App() {
       {/* <form id="payment-form" onSubmit={handleFormSubmit}> */}
       <form id="payment-form" action="https://tuui63hhf5.execute-api.us-west-1.amazonaws.com/dev/create-checkout-session" method="POST">
         <label for="amount">Enter amount here: $</label>
-        <input name="amount" type="number" onInput={e => { setAmount(e.target.value)}} value={amount}></input>
-        <button style ={{marginTop: 20}} id="submit" disabled={amount < 0.5}>
+        <input name="amount" type="number" step="any" onInput={e => { setAmount(e.target.value)}} value={amount}></input>
+        <button style ={{marginTop: 20}} id="submit" disabled={amount < 0.5 || amount > 999999.99}>
           <span id="button-text">
             {/* {isLoading ? <div className="spinner" id="spinner"></div> : "Pay $" + amount + " now"} */}
             {"Pay $" + amount + " now"}
